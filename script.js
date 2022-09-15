@@ -1,114 +1,92 @@
-// const posts = [
-//   { title: "1th post", body: "this is post number 1th", createdAt: new Date() },
-//   { title: "2th post", body: "this is post number 2th", createdAt: new Date() },
-// ];
+const posts = [
+  { title: "1th post", body: "this is post number 1th", createdAt: new Date() },
+  { title: "2th post", body: "this is post number 2th", createdAt: new Date() },
+];
 
-// function getPost() {
-//   setTimeout(() => {
-//     let outPut = "";
-//     posts.forEach((post, index) => {
-//       outPut += `<li class = "addedElement">${post.title}  ${Math.floor(
-//         (new Date().getTime() - post.createdAt.getTime()) / 1000
-//       )} second ago</li>`;
-//     });
-//     document.body.innerHTML = outPut;
-//   }, 1000);
-// }
+function getPost() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const error = false;
 
-// function createPost(post) {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       posts.push({ ...post, createdAt: new Date() });
+      let outPut = "";
+      posts.forEach((post, index) => {
+        outPut += `<li class = "addedElement">${post.title}  ${Math.floor(
+          (new Date().getTime() - post.createdAt.getTime()) / 1000
+        )} second ago</li>`;
+      });
+      document.body.innerHTML = outPut;
+      if (!error) {
+        resolve();
+      } else {
+        reject("something went wrong");
+      }
+    }, 1000);
+  });
+}
 
-//       const error = false;
-//       if (!error) {
-//         resolve();
-//       } else {
-//         reject("Error something went wrong");
-//       }
-//     }, 2000);
-//   });
-// }
+function createPost(post) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      posts.push({ ...post, createdAt: new Date() });
 
-// createPost({
-//   title: "third post",
-//   body: "this is post number three",
-// }).then(getPost);
+      const error = false;
+      if (!error) {
+        resolve();
+      } else {
+        reject("Error something went wrong");
+      }
+    }, 2000);
+  });
+}
 
-// function deletePost(post) {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       const addedElement = document.querySelector(".addedElement");
-//       const error = posts.length == 0;
+createPost({
+  title: "third post",
+  body: "this is post number three",
+}).then(getPost);
 
-//       if (!error) {
-//         resolve();
-//       } else {
-//         reject("Error something went wrong");
-//       }
-//       addedElement.remove();
-//       posts.pop();
-//     }, 1000);
-//   });
-// }
+function deletePost(post) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const addedElement = document.querySelector(".addedElement");
 
-// function updateUserActivity() {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       document.lastModified;
-//     });
-//   });
-// }
+      addedElement.remove();
+      posts.pop();
+      const error = posts.length == 0;
 
-// createPost({ title: "4th post", body: "this is post number 4th" })
-//   .then(getPost)
-//   .then(deletePost)
-//   .then(deletePost)
-//   .then(deletePost)
-//   .then(deletePost)
-//   .then(deletePost)
-//   .catch((err) => console.log(err));
+      if (!error) {
+        resolve();
+      } else {
+        reject("array is empty");
+      }
+    }, 1000);
+  });
+}
 
-///////////////////////// PROMISES   ////////////////////////////////////////////////////////
+function updateUserActivity() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      document.lastModified;
+    });
+  });
+}
 
-// console.log("person1:shows ticket");
-// console.log("person2:shows ticket");
-
-// const promiseWifeBringingTickets = new Promise((resolve, reject) => {
-//   setTimeout(() => {
-//     resolve("ticket");
-//   }, 3000);
-// });
-
-// const getPopCorn = promiseWifeBringingTickets.then((t) => {
-//   console.log(`wife:here is ticket`);
-//   console.log(`husband:we should go in`);
-//   console.log(`wife:no i am hungry`);
-//   return new Promise((resolve, reject) => {
-//     resolve(`${t} popcorn`);
-//   });
-// });
-
-// const goGetButter = getPopCorn.then((t) => {
-//   console.log(`husband:here is popcorn`);
-//   console.log(`husband:we should go in`);
-//   console.log(`wife:no,i need butter on my popcorn`);
-//   return new Promise((resolve, reject) => {
-//     resolve(`${t} butter`);
-//   });
-// });
-
-// const getColdDrink = goGetButter.then((t) => {
-//   console.log(`husband:here is butter`);
-//   console.log(`husband:we should go in`);
-//   console.log(`wife:no,i need thumsup`);
-//   return new Promise((resolve, reject) => {
-//     resolve(`${t} thumsUp`);
-//   });
-// });
-// getColdDrink.then((t) => console.log(t));
-// console.log("person4:shows ticket");
-// console.log("person5:shows ticket");
+createPost({ title: "4th post", body: "this is post number 4th" }).then(() => {
+  getPost().then(() => {
+    deletePost().then(() => {
+      deletePost().then(() => {
+        deletePost().then(() => {
+          deletePost()
+            .then(() => {
+              deletePost();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+      });
+    });
+  });
+});
 
 /////////////////////asyncawait//////////////////////////
 
@@ -121,6 +99,23 @@ const preMovie = async () => {
       resolve("ticket");
     }, 3000);
   });
+
+  let gettea = new Promise((resolve, reject) => {
+    resolve("tea");
+  });
+  let getsamose = new Promise((resolve, reject) => {
+    resolve("samose");
+  });
+  let gethariChatni = new Promise((resolve, reject) => {
+    resolve("Harihatni");
+  });
+  let [tea, hariChatni, samose] = await Promise.all([
+    gettea,
+    gethariChatni,
+    getsamose,
+  ]);
+
+  console.log(`${tea} ${hariChatni} ${samose}`);
 
   let ticket = await promiseWifeBringingTickets;
   console.log(`wife:here is ticket`);
@@ -150,9 +145,12 @@ const preMovie = async () => {
   let thumsUp = await getColdDrink;
   console.log(`husband:here is ThumsUp`);
   console.log(`husband:we should go in`);
+
   return ticket;
 };
 preMovie().then((m) => console.log(`person3:shows ${m}`));
 
 console.log("person4:shows ticket");
 console.log("person5:shows ticket");
+
+/////////////////////////////////////////////End////////////////////////////////
