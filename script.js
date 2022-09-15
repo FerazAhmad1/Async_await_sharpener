@@ -71,41 +71,88 @@
 
 ///////////////////////// PROMISES   ////////////////////////////////////////////////////////
 
+// console.log("person1:shows ticket");
+// console.log("person2:shows ticket");
+
+// const promiseWifeBringingTickets = new Promise((resolve, reject) => {
+//   setTimeout(() => {
+//     resolve("ticket");
+//   }, 3000);
+// });
+
+// const getPopCorn = promiseWifeBringingTickets.then((t) => {
+//   console.log(`wife:here is ticket`);
+//   console.log(`husband:we should go in`);
+//   console.log(`wife:no i am hungry`);
+//   return new Promise((resolve, reject) => {
+//     resolve(`${t} popcorn`);
+//   });
+// });
+
+// const goGetButter = getPopCorn.then((t) => {
+//   console.log(`husband:here is popcorn`);
+//   console.log(`husband:we should go in`);
+//   console.log(`wife:no,i need butter on my popcorn`);
+//   return new Promise((resolve, reject) => {
+//     resolve(`${t} butter`);
+//   });
+// });
+
+// const getColdDrink = goGetButter.then((t) => {
+//   console.log(`husband:here is butter`);
+//   console.log(`husband:we should go in`);
+//   console.log(`wife:no,i need thumsup`);
+//   return new Promise((resolve, reject) => {
+//     resolve(`${t} thumsUp`);
+//   });
+// });
+// getColdDrink.then((t) => console.log(t));
+// console.log("person4:shows ticket");
+// console.log("person5:shows ticket");
+
+/////////////////////asyncawait//////////////////////////
+
 console.log("person1:shows ticket");
 console.log("person2:shows ticket");
 
-const promiseWifeBringingTickets = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("ticket");
-  }, 3000);
-});
+const preMovie = async () => {
+  const promiseWifeBringingTickets = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("ticket");
+    }, 3000);
+  });
 
-const getPopCorn = promiseWifeBringingTickets.then((t) => {
+  let ticket = await promiseWifeBringingTickets;
   console.log(`wife:here is ticket`);
   console.log(`husband:we should go in`);
   console.log(`wife:no i am hungry`);
-  return new Promise((resolve, reject) => {
-    resolve(`${t} popcorn`);
-  });
-});
 
-const goGetButter = getPopCorn.then((t) => {
+  const getPopCorn = new Promise((resolve, reject) => {
+    resolve(`popcorn`);
+  });
+  let popcorn = await getPopCorn;
+
   console.log(`husband:here is popcorn`);
   console.log(`husband:we should go in`);
   console.log(`wife:no,i need butter on my popcorn`);
-  return new Promise((resolve, reject) => {
-    resolve(`${t} butter`);
-  });
-});
 
-const getColdDrink = goGetButter.then((t) => {
+  const goGetButter = new Promise((resolve, reject) => {
+    resolve(`butter`);
+  });
+  let butter = await goGetButter;
+
   console.log(`husband:here is butter`);
   console.log(`husband:we should go in`);
   console.log(`wife:no,i need thumsup`);
-  return new Promise((resolve, reject) => {
-    resolve(`${t} thumsUp`);
+  const getColdDrink = new Promise((resolve, reject) => {
+    resolve("ThumsUp");
   });
-});
-getColdDrink.then((t) => console.log(t));
+  let thumsUp = await getColdDrink;
+  console.log(`husband:here is ThumsUp`);
+  console.log(`husband:we should go in`);
+  return ticket;
+};
+preMovie().then((m) => console.log(`person3:shows ${m}`));
+
 console.log("person4:shows ticket");
 console.log("person5:shows ticket");
